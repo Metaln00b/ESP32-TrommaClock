@@ -74,18 +74,42 @@ void setup() {
     for (size_t i = 0; i < PIN_COUNT; i++)
     {
         pinMode(pins_arr[i], OUTPUT);
-        
+        ledc_init(pins_arr[i], 120, LEDC_CHANNEL_0, LEDC_TIMER_0);
     }
 
-    //ledc_init(pins_arr[i], 120, LEDC_CHANNEL_0, LEDC_TIMER_0);
-    //ledc_set_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0, 320);
-    //ledc_update_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0);
+    ledc_set_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0, 320);
+    ledc_update_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0);
 }
 
 void loop() {
     for (size_t i = 0; i < PIN_COUNT; i++)
     {
-        digitalWrite(pins_arr[i], HIGH); 
+        ledc_init(pins_arr[i], 120, LEDC_CHANNEL_0, LEDC_TIMER_0);
+    }
+
+    for (size_t i = 0; i < DUTY_MAX; i++)
+    {
+        ledc_set_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0, i);
+        ledc_update_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0);
+        delay(2);
+    }
+
+    for (size_t i = DUTY_MAX; i > 0; i--)
+    {
+        ledc_set_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0, i);
+        ledc_update_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0);
+        delay(2);
+    }
+
+    for (size_t i = 0; i < PIN_COUNT; i++)
+    {
+        pinMode(pins_arr[i], OUTPUT);
+        digitalWrite(pins_arr[i], LOW);
+    }
+
+    for (size_t i = 0; i < PIN_COUNT; i++)
+    {
+        digitalWrite(pins_arr[i], HIGH);
         delay(150);
     }
 
@@ -102,7 +126,7 @@ void loop() {
 
     for (size_t i = 0; i < PIN_COUNT; i++)
     {
-        digitalWrite(pins_arr[i], HIGH); 
+        digitalWrite(pins_arr[i], HIGH);
     }
 
     delay(1000);
@@ -119,6 +143,51 @@ void loop() {
     digitalWrite(pins_arr[9-1], HIGH);
     digitalWrite(pins_arr[12+1], HIGH);
     digitalWrite(pins_arr[12+2], HIGH);
+
+    delay(1000);
+
+    for (size_t i = 0; i < 5; i++)
+    {
+        int delay_ms = 200;
+        for (size_t i = 0; i < PIN_COUNT; i++)
+        {
+            digitalWrite(pins_arr[i], LOW);
+        }
+
+        digitalWrite(ONE_PIN, HIGH);
+        digitalWrite(FOUR_PIN, HIGH);
+        digitalWrite(SEVEN_PIN, HIGH);
+        digitalWrite(TEN_PIN, HIGH);
+        digitalWrite(TEN2_PIN, HIGH);
+
+        delay(delay_ms);
+
+        for (size_t i = 0; i < PIN_COUNT; i++)
+        {
+            digitalWrite(pins_arr[i], LOW);
+        }
+
+        digitalWrite(TWO_PIN, HIGH);
+        digitalWrite(FIVE_PIN, HIGH);
+        digitalWrite(EIGHT_PIN, HIGH);
+        digitalWrite(ELEVEN_PIN, HIGH);
+        digitalWrite(ELEVEN2_PIN, HIGH);
+
+        delay(delay_ms);
+
+        for (size_t i = 0; i < PIN_COUNT; i++)
+        {
+            digitalWrite(pins_arr[i], LOW);
+        }
+
+        digitalWrite(THREE_PIN, HIGH);
+        digitalWrite(SIX_PIN, HIGH);
+        digitalWrite(NINE_PIN, HIGH);
+        digitalWrite(TWELVE_PIN, HIGH);
+        digitalWrite(TWELVE2_PIN, HIGH);
+
+        delay(delay_ms);
+    }
 
     delay(2000);
 }
